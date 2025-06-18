@@ -1,6 +1,6 @@
 # DFS
 
-This repository provides tools for simple web testing. Initially a C# console app existed, but a more advanced C implementation is now available. The C version supports testing multiple URLs concurrently and checking for content in the response body.
+This repository provides tools for simple web testing. Initially a C# console app existed, but C implementations are now available. The basic C tool checks URLs concurrently while the API tester can exercise multiple endpoints defined in a file.
 
 ## Building the C tool
 
@@ -23,6 +23,37 @@ This will produce the `cwebtester` binary in `CWebTester/`.
 - `-f urls.txt` reads additional URLs from a file (one per line). All URLs are tested concurrently.
 
 Each URL will print `OK` if the response matches the conditions, otherwise an error message is shown.
+
+## Building the API tester
+
+Run the following to build the more flexible API tester written in C:
+
+```bash
+make -C ApiTester
+```
+
+This will produce the `apitester` binary in `ApiTester/`.
+
+## Using the API tester
+
+Create a text file listing your API checks. Each non-empty line should have the form:
+
+```
+METHOD URL STATUS [CONTAINS]
+```
+
+Lines beginning with `#` are ignored. For example:
+
+```
+GET https://example.com/api/health 200 ok
+POST https://example.com/api/login 404
+```
+
+Run the tests with:
+
+```bash
+./ApiTester/apitester tests.txt
+```
 
 ## Legacy C# tester
 
